@@ -1,0 +1,17 @@
+﻿@model CategoryC
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <h1>Create</h1>
+    <form method="post">
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Name</label>
+            <input asp-for="Name"  class="form-control" aria-describedby="Course category" placeholder="Enter category">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

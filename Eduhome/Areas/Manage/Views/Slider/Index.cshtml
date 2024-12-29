@@ -1,0 +1,98 @@
+﻿@model List<Slider>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+    int order = 1;
+}
+<div class="container-fluid">
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-primary" asp-action="create">Create</a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First Title</th>
+                <th scope="col">Second Title</th>
+                <th scope="col">Subtitle</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@order</th>
+                    <td>@item.TitleFirst</td>
+                    <td>@item.TitleSecond</td>
+                    <td>@item.Subtitle</td>
+
+                    <td>
+                        <a asp-action="edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
+                        <a asp-action="delete" asp-route-id="@item.Id" class="btn btn-danger item-delete">Delete</a>
+                    </td>
+                </tr>
+                order++;
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(documen).on("click",".item-delete",e=>{
+                e.preventDefault();
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: "btn btn-success",
+                        cancelButton: "btn btn-danger"
+                    },
+                    buttonsStyling: false
+                });
+                swalWithBootstrapButtons.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "No, cancel!",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var url = $(this).attr("href");
+
+
+                        fetch(url)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status == 200) {
+                                    window.location.reload();
+                                }
+                                else {
+                                    Swal.fire({
+                                        title: "Not Found!",
+                                        text: "test",
+                                        icon: "error"
+                                    });
+                                }
+                            });
+
+                    } 
+                    else if (result.dismiss === Swal.DismissReason.cancel) 
+                    {
+                        swalWithBootstrapButtons.fire({
+                            title: "Cancelled",
+                            text: "Your imaginary file is safe :)",
+                            icon: "error"
+                        });
+                    }
+                });
+            })
+        })
+    </script>
+  
+}
+

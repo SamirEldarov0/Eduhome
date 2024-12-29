@@ -1,0 +1,281 @@
+﻿@model HomeViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!-- Background Area Start -->
+<section id="slider-container" class="slider-area">
+    <div class="slider-owl owl-theme owl-carousel">
+        @foreach (var item in Model.Sliders)
+        {
+            <div class="single-slide item" style="background-image: url(../assets/img/slider/@item.BgImg)">
+                <!-- Start Slider Content -->
+                <div class="slider-content-area">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-7 col-md-offset-left-5">
+                                <div class="slide-content-wrapper">
+                                    <div class="slide-content">
+                                        <h3>@item.TitleFirst </h3>
+                                        <h2>@item.TitleSecond </h2>
+                                        <p>@item.Subtitle </p>
+                                        <a class="default-btn" asp-action="about">@item.BtnTxt</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Start Slider Content -->
+            </div>
+        }
+    </div>
+</section>
+<!-- Background Area End -->
+<!-- Notice Start -->
+<section class="notice-area pt-150 pb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="notice-left">
+                    <h3>notice board</h3>
+                    @foreach (var item in Model.NoticeBoards)
+                    {
+                        <div class="single-notice-left mb-25 pb-25">
+                            <h4>@item.Title</h4>
+                            <p>
+                                @item.Subtitle
+                            </p>
+                        </div>
+                    }
+                  
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="notice-right">
+                    @foreach (var item in Model.Features)
+                    {
+                        <div class="single-notice-right mb-25 pb-25">
+                            <h3>@item.Title</h3>
+                            <p>@item.Desc </p>
+                        </div>
+
+                    }
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Notice End -->
+<!-- Choose Start -->
+<section class="choose-area pb-85 pt-77">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-left-4">
+                <div class="choose-content text-start">
+                    <h2>@Model.Setting.ChooseTitle</h2>
+                    <p>@Model.Setting.ChooseDesc </p>
+                    <a class="default-btn" asp-action="index" asp-controller="course">@Model.Setting.ChooseBtn</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Choose Area End -->
+<!-- Courses Area Start -->
+<div class="courses-area pt-150 text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-title">
+                    <img src="~/assets/img/icon/section.png" alt="section-title">
+                    <h2>COURSES WE OFFER</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in Model.Courses.Take(3))
+            {
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-course">
+                        <div class="course-img">
+                            <a asp-action="detail" asp-controller="course" asp-route-id="@item.Id">
+                                <img src="~/assets/img/course/@item.Img" alt="course">
+                                <div class="course-hover">
+                                    <i class="fa fa-link"></i>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="course-content">
+                            <h3><a asp-action="detail" asp-controller="course" asp-route-id="@item.Id">@item.Name</a></h3>
+                            <p>@item.Desc</p>
+                            <a class="default-btn" asp-action="detail" asp-controller="course" asp-route-id="@item.Id">read more</a>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        
+        </div>
+    </div>
+</div>
+<!-- Courses Area End -->
+<!-- Event Area Start -->
+<div class="event-area one text-center pt-140 pb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-title">
+                    <img src="~/assets/img/icon/section.png" alt="section-title">
+                    <h2>UPCOMMING EVENTS</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                @foreach (var item in Model.Events.Take(4))
+                {
+                    <div class="single-event mb-35">
+                        <div class="event-date">
+                            <h3><a asp-route-id="@item.Id" asp-action="detail" asp-controller="event">@item.EventDate.ToString("MMMM") <span>@item.EventDate.Day</span></a></h3>
+                        </div>
+                        <div class="event-content text-start">
+                            <div class="event-content-left">
+                                <h4><a asp-route-id="@item.Id" asp-action="detail" asp-controller="event">@item.Name</a></h4>
+                                <ul>
+                                    <li><i class="fa fa-clock-o"></i>@item.StartDate.ToString("hh") AM - @item.EndDate.ToString("HH") PM</li>
+                                    <li><i class="fa fa-map-marker"></i>@item.Venue</li>
+                                </ul>
+                            </div>
+                            <div class="event-content-right">
+                                <a class="default-btn" asp-route-id="@item.Id" asp-action="detail" asp-controller="event">join now</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+              
+            </div>
+            <div class="col-lg-6">
+                @foreach (var item in Model.Events.Skip(4).Take(4))
+                {
+                    <div class="single-event mb-35">
+                        <div class="event-date">
+                            <h3><a asp-route-id="@item.Id" asp-action="detail" asp-controller="event">@item.EventDate.ToString("MMMM") <span>@item.EventDate.Day</span></a></h3>
+                        </div>
+                        <div class="event-content text-start">
+                            <div class="event-content-left">
+                                <h4><a asp-route-id="@item.Id" asp-action="detail" asp-controller="event">@item.Name</a></h4>
+                                <ul>
+                                    <li><i class="fa fa-clock-o"></i>@item.StartDate.ToString("hh") AM - @item.EndDate.ToString("HH") PM</li>
+                                    <li><i class="fa fa-map-marker"></i>@item.Venue</li>
+                                </ul>
+                            </div>
+                            <div class="event-content-right">
+                                <a class="default-btn" asp-route-id="@item.Id" asp-action="detail" asp-controller="event">join now</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Event Area End -->
+<!-- Testimonial Area Start -->
+<div class="testimonial-area pt-110 pb-105 text-center">
+    <div class="container">
+        <div class="row">
+            <div class="testimonial-owl owl-theme owl-carousel">
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="single-testimonial">
+                        <div class="testimonial-info">
+                            <div class="testimonial-img">
+                                <img src="~/assets/img/testimonial/@Model.Setting.TestImg" alt="testimonial">
+                            </div>
+                            <div class="testimonial-content">
+                                <p>@Model.Setting.TestTitle</p>
+                                <h4>@Model.Setting.TestName</h4>
+                                <h5>@Model.Setting.TestPosition</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Testimonial Area End -->
+<!-- Blog Area Start -->
+<div class="blog-area pt-150 pb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-title text-center">
+                    <img src="~/assets/img/icon/section.png" alt="section-title">
+                    <h2>LATEST FROM BLOG</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="single-blog">
+                    <div class="blog-img">
+                        <a href="blog-details.html"><img src="~/assets/img/blog/blog1.jpg" alt="blog"></a>
+                        <div class="blog-hover">
+                            <a href="blog-details.html"><i class="fa fa-link"></i></a>
+                        </div>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-top">
+                            <p>By Alex  /  June 20, 2022  /  <i class="fa fa-comments-o"></i> 4</p>
+                        </div>
+                        <div class="blog-bottom">
+                            <h2><a href="blog-details.html">I must explain to you how all this a mistaken idea </a></h2>
+                            <a href="blog-details.html">read more</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="single-blog">
+                    <div class="blog-img">
+                        <a href="blog-details.html"><img src="~/assets/img/blog/blog2.jpg" alt="blog"></a>
+                        <div class="blog-hover">
+                            <a href="blog-details.html"><i class="fa fa-link"></i></a>
+                        </div>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-top">
+                            <p>By Alex  /  June 20, 2022  /  <i class="fa fa-comments-o"></i> 4</p>
+                        </div>
+                        <div class="blog-bottom">
+                            <h2><a href="blog-details.html">I must explain to you how all this a mistaken idea </a></h2>
+                            <a href="blog-details.html">read more</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="single-blog mb-0">
+                    <div class="blog-img">
+                        <a href="blog-details.html"><img src="~/assets/img/blog/blog3.jpg" alt="blog"></a>
+                        <div class="blog-hover">
+                            <a href="blog-details.html"><i class="fa fa-link"></i></a>
+                        </div>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-top">
+                            <p>By Alex  /  June 20, 2022  /  <i class="fa fa-comments-o"></i> 4</p>
+                        </div>
+                        <div class="blog-bottom">
+                            <h2><a href="blog-details.html">I must explain to you how all this a mistaken idea </a></h2>
+                            <a href="blog-details.html">read more</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Blog Area End -->

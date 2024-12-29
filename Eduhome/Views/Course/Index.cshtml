@@ -1,0 +1,167 @@
+﻿@model List<Course>
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<!-- Banner Area Start -->
+<div class="banner-area-wrapper">
+    <div class="banner-area text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="banner-content-wrapper">
+                        <div class="banner-content">
+                            <h2>courses</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid sorting-section pt-5">
+         <div class="sorting-selection bg-">
+            <span class="pl-3">Sort By:</span>
+            <select name="sort" id="sort" class="form-control nice-select sort-select mr-0">
+
+                @if (ViewBag.Sort==null)
+                {
+                    <option value="" selected="selected">Default Sorting</option>
+
+                }
+                @if (ViewBag.Sort == "FromAToZ")
+                {
+                    <option value="FromAToZ" selected="selected">
+                        Sort
+                        By:Name (A - Z)
+                    </option>
+                }
+                else
+                {
+                    <option value="FromAToZ">
+                        Sort
+                        By:Name (A - Z)
+                    </option>
+                }
+                @if (ViewBag.Sort == "FromZToA")
+                {
+                    <option value="FromAToZ" selected="selected">
+                        Sort
+                        By:Name (Z - A)
+                    </option>
+                }
+                else
+                {
+                     <option value="FromZToA">
+                        Sort
+                        By:Name (Z - A)
+                    </option>
+                }
+                @if (ViewBag.Sort == "LowToHigh")
+                {
+                    <option value="FromAToZ" selected="selected">
+                        Sort
+                        By:Price (Low To High)
+                </option>
+                }
+                else
+                {
+                    <option value="LowToHigh">
+                        Sort
+                        By:Price (Low To High)
+                    </option>
+                }
+                @if (ViewBag.Sort == "HighToLow")
+                {
+                        <option value="FromAToZ" selected="selected">
+                            Sort
+                            By:Price (High To Low)
+                        </option>
+                }
+                else
+                {
+                    <option value="HighToLow">
+                        Sort
+                        By:Price (High To Low)
+                    </option>
+                }
+            </select>
+        </div>
+
+</div>
+
+<!-- Banner Area End -->
+<!-- Course Start -->
+<div class="course-area pt-150 pb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="course-title">
+                    <h3>search courses</h3>
+                </div>
+                <div class="course-form">
+                    <form id="search" action="#">
+                        <input type="search" placeholder="Search..." name="search" />
+                        <button type="submit">search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-course mb-70">
+                        <div class="course-img">
+                            <a asp-action="detail" asp-route-id="@item.Id">
+                                <img src="~/assets/img/course/@item.Img" alt="course">
+                                <div class="course-hover">
+                                    <i class="fa fa-link"></i>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="course-content">
+                            <h3><a asp-action="detail" asp-route-id="@item.Id">@item.Name</a></h3>
+                            <p>@item.Desc</p>
+                            <a class="default-btn" asp-action="detail" asp-route-id="@item.Id">read more</a>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+        <div class="row d-flex justify-content-end">
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <li class="page-item @(ViewBag.SelectedPage==1?"disabled":"")">
+                        <a class="page-link" asp-action="index" asp-route-categoryId="@ViewBag.CategoryId" asp-route-page="@(ViewBag.SelectedPage-1)" tabindex="-1">Previous</a>
+                    </li>
+                    @for (int i = 1; i <= ViewBag.TotalPage; i++)
+                    {
+                        <li class="page-item @(ViewBag.SelectedPage==i?"active":"")">
+                            <a class="page-link" asp-action="index" asp-route-categoryId="@ViewBag.CategoryId" asp-route-page="@i">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(ViewBag.SelectedPage==ViewBag.TotalPage?"disabled":"")">
+                        <a class="page-link" asp-action="index" asp-route-categoryId="@ViewBag.CategoryId" asp-route-page="@(ViewBag.SelectedPage+1)">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Course End -->
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#sort").on("change", function (e) {
+                var url = new URL(window.location.href);
+                url.searchParams.delete("sort");
+                url.searchParams.append("sort", $(this).val())
+                window.location.href = url
+            })
+        })
+    </script>
+}
